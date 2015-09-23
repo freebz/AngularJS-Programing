@@ -1,0 +1,30 @@
+<!doctype html>
+<html ng-app="sampleApp">
+	<head>
+		<meta charset="UTF-8">
+		<script src="libs/angular/angular.js"></script>
+		<script type="text/javascript">
+			angular.module('sampleApp',[])
+				.controller('demoCtrl', function($scope) {
+					$scope.helloList = [{name:'google'},{name:'naver'},{name:'angular'}];
+					$scope.sendMessage = function(toSb) {
+						console.log(toSb+"에게 메시지를 보낸다.");
+					}
+				})
+				.directive('hello', function($log) {
+					return {
+						template: "<h1>hello <span>{{name}}</span> <button ng-click='send()'>메시지 보내기</button></h1>",
+						// templateUrl: "helloTpl.html",
+						restrict: "AE",
+						scope: {
+							name : "@to",
+							send : "&"
+						}
+					}
+				});
+		</script>
+	</head>
+	<body ng-controller="demoCtrl">
+		<div ng-repeat="helloSb in helloList" hello to="{{ helloSb.name }}" send="sendMessage(helloSb.name)"></div>
+	</body>
+</html>
